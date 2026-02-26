@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poppodium De Turbine — Rotterdam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E8461A;
+    --bg: #0f0f0f;
+    --bg2: #161616;
+    --bg3: #1c1c1c;
+    --text: #ffffff;
+    --muted: #888;
+    --dim: #555;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── STAR BACKGROUND ── */
+  #stars {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 70% 50%, #1a1a2e 0%, #0f0f0f 70%);
+    overflow: hidden;
+  }
+  #stars::before, #stars::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 40%, rgba(255,255,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 55%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 82% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 45%, rgba(255,255,255,0.3) 0%, transparent 100%);
+    background-size: 400px 400px, 350px 350px, 500px 500px, 300px 300px, 450px 450px, 380px 380px, 420px 420px, 480px 480px, 320px 320px, 410px 410px;
+  }
+
+  /* ── TURBINE GEAR ── */
+  .gear-bg {
+    position: fixed;
+    right: -5vw; top: 50%;
+    transform: translateY(-50%);
+    width: 55vw; height: 55vw;
+    opacity: 0.07;
+    z-index: 0;
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+  /* ── SLIDES ── */
+  .slides-container {
+    position: relative; z-index: 2;
+    width: 100vw; height: 100vh;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── LOGO T ── */
+  .logo-t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3.5rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+
+  /* ── FOOTER BAR ── */
+  .footer-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.9rem 2.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .footer-bar .dot { width: 3px; height: 3px; background: var(--dim); border-radius: 50%; }
+
+  /* ══════════════════════════════
+     SLIDE 1 — WELKOM
+  ══════════════════════════════ */
+  #slide-welkom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 6vw;
+  }
+
+  #slide-welkom .diagonal-line {
+    position: absolute;
+    top: 0; left: 28vw; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--orange) 30%, var(--orange) 70%, transparent);
+    transform: skewX(-8deg);
+    opacity: 0.6;
+  }
+
+  .welkom-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(5rem, 14vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    animation: fadeUp 1s ease both;
+  }
+
+  .welkom-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 2.2vw, 1.6rem);
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+
+  .dot-row {
+    display: flex; gap: 0.6rem;
+    margin-top: 2.5rem;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+  .dot-row span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.4;
+  }
+  .dot-row span:first-child { opacity: 1; }
+  .dot-row span:nth-child(2) { opacity: 0.7; }
+
+  #slide-welkom .logo-t {
+    position: absolute;
+    top: 1.8rem; right: 2.5rem;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 2 — PROGRAMMA
+  ══════════════════════════════ */
+  #slide-programma {
+    display: flex;
+  }
+
+  .prog-sidebar {
+    width: 22vw;
+    min-width: 220px;
+    padding: 2.5rem 2rem;
+    border-right: 3px solid var(--orange);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .prog-sidebar .logo-t { margin-bottom: 0.3rem; }
+
+  .prog-sidebar h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .prog-sidebar .period {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 0.8rem;
+  }
+
+  .prog-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .prog-item {
+    display: flex;
+    align-items: center;
+    padding: 1.3rem 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+    gap: 1.2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .prog-item:hover { background: rgba(255,255,255,0.03); }
+  .prog-item:last-child { border-bottom: none; }
+
+  .prog-item .accent-bar {
+    width: 3px;
+    align-self: stretch;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .prog-item-info { flex: 1; }
+  .prog-item-date {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+  .prog-item-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .prog-item-meta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .prog-item-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
+    display: block;
+  }
+  .prog-item-hall {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ══════════════════════════════
+     SLIDE 3 — NIEUWS
+  ══════════════════════════════ */
+  #slide-nieuws {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nieuws-header {
+    background: var(--orange);
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .nieuws-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .nieuws-header .meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    opacity: 0.85;
+  }
+
+  .nieuws-cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--bg2);
+  }
+
+  .nieuws-card {
+    padding: 2rem 2rem 2.5rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .nieuws-card:last-child { border-right: none; }
+
+  .card-tag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid currentColor;
+  }
+
+  .card-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    background: var(--orange);
+    border-radius: 2px;
+  }
+  .card-badge.uitgelicht {
+    background: transparent;
+    border: 1px solid var(--dim);
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+  }
+
+  .card-body {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  #slide-nieuws .footer-bar {
+    background: var(--bg2);
+  }
+
+  /* ══════════════════════════════
+     SLIDE 4 — WEER
+  ══════════════════════════════ */
+  #slide-weer {
+    display: flex;
+    background: #0d1525;
+  }
+
+  .weer-sidebar {
+    width: 28vw;
+    min-width: 260px;
+    padding: 3rem 2.5rem;
+    border-right: 3px solid var(--orange);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .weer-city {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-top: 0.3rem;
+  }
+
+  .weer-country {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .weer-temp {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 1;
+    margin-top: 1rem;
+  }
+
+  .weer-condition {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: #4a9eff;
+  }
+
+  .weer-feels {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  .weer-main {
+    flex: 1;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .weer-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .weer-section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--orange);
+    max-width: 60px;
+  }
+
+  .hourly-row {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hourly-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    min-width: 80px;
+  }
+
+  .hourly-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .hourly-icon { font-size: 1.4rem; }
+
+  .hourly-temp {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
+  .forecast-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .forecast-row {
+    display: grid;
+    grid-template-columns: 110px 30px 50px 1fr 40px;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .forecast-row:last-child { border-bottom: none; }
+
+  .fc-day {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .fc-icon { font-size: 1rem; text-align: center; }
+
+  .fc-rain {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    color: #4a9eff;
+    letter-spacing: 0.05em;
+  }
+
+  .fc-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .fc-bar-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--orange);
+    border-radius: 3px;
+  }
+
+  .fc-high {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: right;
+  }
+
+  #slide-weer .footer-bar {
+    background: #0d1525;
+    border-top-color: rgba(255,255,255,0.04);
+  }
+
+  /* ── NAV DOTS ── */
+  #nav-dots {
+    position: fixed;
+    bottom: 3.5rem;
+    right: 2rem;
+    z-index: 100;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--dim);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .nav-dot.active {
+    background: var(--orange);
+    height: 20px;
+    border-radius: 3px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: var(--orange);
+    z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .prog-sidebar { width: 30vw; min-width: 130px; padding: 1.5rem 1rem; }
+    .prog-item { padding: 1rem 1.2rem; }
+    .prog-sidebar h2 { font-size: 1.5rem; }
+    .nieuws-cards { grid-template-columns: 1fr; }
+    .nieuws-card:not(:first-child) { display: none; }
+    .hourly-row { gap: 0.8rem; }
+    .hourly-item { min-width: 55px; padding: 0.6rem 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<!-- Gear SVG background -->
+<svg class="gear-bg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M100 30 L110 10 L120 30 L140 20 L135 42 L155 38 L150 60 L170 65 L158 82 L175 93 L158 105 L170 118 L150 122 L155 143 L135 140 L140 162 L120 155 L110 175 L100 158 L90 175 L80 155 L60 162 L65 140 L45 143 L50 122 L30 118 L42 105 L25 93 L42 82 L30 65 L50 60 L45 38 L65 42 L60 20 L80 30 L90 10 Z" fill="white"/>
+  <circle cx="100" cy="100" r="35" fill="#0f0f0f"/>
+  <circle cx="100" cy="100" r="22" stroke="white" stroke-width="4" fill="none"/>
+</svg>
+
+<!-- ══════ SLIDES ══════ -->
+<div class="slides-container">
+
+  <!-- SLIDE 1: WELKOM -->
+  <div class="slide active" id="slide-welkom">
+    <div class="diagonal-line"></div>
+    <div class="logo-t">T</div>
+    <div class="welkom-title">WELKOM</div>
+    <div class="welkom-sub">BIJ POPPODIUM DE TURBINE &mdash; ROTTERDAM</div>
+    <div class="dot-row">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="footer-bar">
+      <span>VANAVOND OPEN VANAF 19:00</span>
+      <span class="dot"></span>
+      <span>WWW.DETURBINE.NL</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PROGRAMMA -->
+  <div class="slide" id="slide-programma">
+    <div class="prog-sidebar">
+      <div class="logo-t">T</div>
+      <h2>PROGRAMMA</h2>
+      <div class="period">FEBRUARI &mdash; MAART 2025</div>
+    </div>
+    <div class="prog-list">
+      <div class="prog-item" style="animation-delay:0.05s">
+        <div class="accent-bar" style="background:#E8461A"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">VR 21 FEB</div>
+          <div class="prog-item-name">FONTAINES D.C.</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">20:30</span>
+          <span class="prog-item-hall">GROTE ZAAL</span>
+        </div>
+      </div>
+      <div class="prog-item" style="animation-delay:0.1s">
+        <div class="accent-bar" style="background:#4a6fff"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">ZA 22 FEB</div>
+          <div class="prog-item-name">BICEP (DJ SET)</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">23:00</span>
+          <span class="prog-item-hall">GROTE ZAAL</span>
+        </div>
+      </div>
+      <div class="prog-item" style="animation-delay:0.15s">
+        <div class="accent-bar" style="background:#9c4fff"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">DO 27 FEB</div>
+          <div class="prog-item-name">SEVDALIZA</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">20:00</span>
+          <span class="prog-item-hall">KLEINE ZAAL</span>
+        </div>
+      </div>
+      <div class="prog-item" style="animation-delay:0.2s">
+        <div class="accent-bar" style="background:#3fb37a"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">ZA 01 MRT</div>
+          <div class="prog-item-name">BONOBO LIVE</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">21:00</span>
+          <span class="prog-item-hall">GROTE ZAAL</span>
+        </div>
+      </div>
+      <div class="prog-item" style="animation-delay:0.25s">
+        <div class="accent-bar" style="background:#e8c81a"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">VR 07 MRT</div>
+          <div class="prog-item-name">BLACK MIDI</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">20:30</span>
+          <span class="prog-item-hall">GROTE ZAAL</span>
+        </div>
+      </div>
+      <div class="prog-item" style="animation-delay:0.3s">
+        <div class="accent-bar" style="background:#e84a6e"></div>
+        <div class="prog-item-info">
+          <div class="prog-item-date">ZA 15 MRT</div>
+          <div class="prog-item-name">CAROLINE POLACHEK</div>
+        </div>
+        <div class="prog-item-meta">
+          <span class="prog-item-time">21:00</span>
+          <span class="prog-item-hall">GROTE ZAAL</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>KAARTEN: WWW.DETURBINE.NL</span>
+      <span class="dot"></span>
+      <span>AAN DE KAS: MAURITSWEG 27, ROTTERDAM</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: NIEUWS -->
+  <div class="slide" id="slide-nieuws">
+    <div class="nieuws-header">
+      <h1>POP NIEUWS</h1>
+      <div class="meta">
+        <span>VANDAAG &middot; 21 FEB</span>
+        <div class="logo-t" style="color:white; font-size:2.5rem;">T</div>
+      </div>
+    </div>
+    <div class="nieuws-cards">
+      <div class="nieuws-card" style="animation-delay:0.1s">
+        <div class="card-tag-row">
+          <span class="card-tag" style="color:#4a6fff">LIVE REVIEW</span>
+          <span class="card-badge uitgelicht">★ UITGELICHT</span>
+        </div>
+        <div class="card-title">BICEP BRENGT DANCEFLOOR TOT LEVEN MET EPISCH OPTREDEN IN AMSTERDAM</div>
+        <p class="card-body">Het Ierse duo Bicep zette de Johan Cruijff Arena op zijn kop tijdens een uitverkochte show vol elektronische energie. Met hun nieuwe album als leidraad brachten ze een set van twee uur die het publiek nooit meer zal vergeten.</p>
+      </div>
+      <div class="nieuws-card" style="animation-delay:0.2s">
+        <div class="card-tag-row">
+          <span class="card-tag" style="color:#E8461A">ALBUM RELEASE</span>
+          <span class="card-badge">NIEUW</span>
+        </div>
+        <div class="card-title">FONTAINES D.C. KONDIGT NIEUW ALBUM AAN VOOR ZOMER 2025</div>
+        <p class="card-body">De Ierse post-punk band Fontaines D.C. heeft de release aangekondigd van 'Roman Holiday', hun vierde studioalbum. De eerste single is al beschikbaar op alle streamingdiensten.</p>
+      </div>
+      <div class="nieuws-card" style="animation-delay:0.3s">
+        <div class="card-tag-row">
+          <span class="card-tag" style="color:#e8c81a">FESTIVAL NIEUWS</span>
+        </div>
+        <div class="card-title">PRIMAVERA SOUND 2025: EERSTE NAMEN BEKEND</div>
+        <p class="card-body">Het Spaanse festival Primavera Sound heeft de eerste namen voor de editie van 2025 bekendgemaakt. Onder de headliners bevinden zich Charli xcx, Justice en Jamie xx.</p>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>MEER NIEUWS: WWW.DETURBINE.NL/NIEUWS</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: WEER -->
+  <div class="slide" id="slide-weer">
+    <div class="weer-sidebar">
+      <div class="logo-t">T</div>
+      <div class="weer-city">ROTTERDAM</div>
+      <div class="weer-country">NEDERLAND</div>
+      <div class="weer-temp">7°</div>
+      <div class="weer-condition">BEWOLKT</div>
+      <div class="weer-feels">GEVOELSTEMPERATUUR 4°</div>
+    </div>
+    <div class="weer-main">
+      <div>
+        <div class="weer-section-title">VANDAAG</div>
+        <div class="hourly-row">
+          <div class="hourly-item">
+            <span class="hourly-time">09:00</span>
+            <span class="hourly-icon">☁️</span>
+            <span class="hourly-temp">5°</span>
+          </div>
+          <div class="hourly-item">
+            <span class="hourly-time">12:00</span>
+            <span class="hourly-icon">🌥️</span>
+            <span class="hourly-temp">8°</span>
+          </div>
+          <div class="hourly-item">
+            <span class="hourly-time">15:00</span>
+            <span class="hourly-icon">🌥️</span>
+            <span class="hourly-temp">10°</span>
+          </div>
+          <div class="hourly-item">
+            <span class="hourly-time">18:00</span>
+            <span class="hourly-icon">☁️</span>
+            <span class="hourly-temp">7°</span>
+          </div>
+          <div class="hourly-item">
+            <span class="hourly-time">21:00</span>
+            <span class="hourly-icon">☁️</span>
+            <span class="hourly-temp">5°</span>
+          </div>
+          <div class="hourly-item">
+            <span class="hourly-time">00:00</span>
+            <span class="hourly-icon">🌙</span>
+            <span class="hourly-temp">4°</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="weer-section-title">KOMENDE DAGEN</div>
+        <div class="forecast-list">
+          <div class="forecast-row">
+            <span class="fc-day">VRIJDAG</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-rain">80%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:55%"></div></div>
+            <span class="fc-high">9°</span>
+          </div>
+          <div class="forecast-row">
+            <span class="fc-day">ZATERDAG</span>
+            <span class="fc-icon">🌥️</span>
+            <span class="fc-rain">30%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:70%"></div></div>
+            <span class="fc-high">11°</span>
+          </div>
+          <div class="forecast-row">
+            <span class="fc-day">ZONDAG</span>
+            <span class="fc-icon">⛅</span>
+            <span class="fc-rain">10%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:75%"></div></div>
+            <span class="fc-high">13°</span>
+          </div>
+          <div class="forecast-row">
+            <span class="fc-day">MAANDAG</span>
+            <span class="fc-icon">🌥️</span>
+            <span class="fc-rain">50%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:58%"></div></div>
+            <span class="fc-high">10°</span>
+          </div>
+          <div class="forecast-row">
+            <span class="fc-day">DINSDAG</span>
+            <span class="fc-icon">🌦️</span>
+            <span class="fc-rain">20%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:65%"></div></div>
+            <span class="fc-high">12°</span>
+          </div>
+          <div class="forecast-row">
+            <span class="fc-day">WOENSDAG</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-rain">70%</span>
+            <div class="fc-bar"><div class="fc-bar-fill" style="width:50%"></div></div>
+            <span class="fc-high">8°</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>WEERSDATA: OPEN-METEO.COM</span>
+      <span class="dot"></span>
+      <span>BIJGEWERKT OM 18:45</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- NAV DOTS -->
+<div id="nav-dots">
+  <div class="nav-dot active" onclick="goTo(0)"></div>
+  <div class="nav-dot" onclick="goTo(1)"></div>
+  <div class="nav-dot" onclick="goTo(2)"></div>
+  <div class="nav-dot" onclick="goTo(3)"></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.nav-dot');
+  const progressBar = document.getElementById('progress');
+  let current = 0;
+  const DURATION = 10000; // 10s per slide
+  let startTime = null;
+  let rafId = null;
+  let paused = false;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    startTime = performance.now();
+  }
+
+  function next() {
+    goTo((current + 1) % slides.length);
+  }
+
+  function tick(now) {
+    if (!startTime) startTime = now;
+    if (!paused) {
+      const elapsed = now - startTime;
+      const pct = Math.min((elapsed / DURATION) * 100, 100);
+      progressBar.style.width = pct + '%';
+      if (elapsed >= DURATION) next();
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Pause on hover
+  document.querySelector('.slides-container').addEventListener('mouseenter', () => { paused = true; });
+  document.querySelector('.slides-container').addEventListener('mouseleave', () => {
+    paused = false;
+    startTime = performance.now() - (parseFloat(progressBar.style.width) / 100 * DURATION);
+  });
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') goTo((current - 1 + slides.length) % slides.length);
+  });
+
+  startTime = performance.now();
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>
